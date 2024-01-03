@@ -1,0 +1,46 @@
+/* static/css/car_detail.css */
+
+.car-details {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    overflow: hidden;
+}
+
+.car-image {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+}
+
+.car-info {
+    padding: 20px;
+}
+
+.car-info h2 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.car-info p {
+    color: #555;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+.back-button {
+    display: inline-block;
+    padding: 10px 15px;
+    background-color: #333;
+    color: white;
+    text-decoration: none;
+    margin-top: 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #555;
+}

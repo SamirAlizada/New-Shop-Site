@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="car-details">
+    <img src="{{ car.image.url }}" alt="{{ car.make }} {{ car.model }}" class="car-image">
+    <div class="car-info">
+      <h2>{{ car.year }} {{ car.make }} {{ car.model }}</h2>
+      <p>Price: ${{ car.price }}</p>
+      <!-- car_detail.html -->
+      <form method="post" action="{% url 'add_to_cart' car.id %}" class="your-form-class">
+        {% csrf_token %}
+        <label for="id_quantity">Quantity:</label>
+        {{ form.quantity }}
+        <button type="submit" class="add-to-cart-btn">Add to Cart</button>
+      </form>
+    </div>
+    <a href="{% url 'car_list' %}" class="back-button">Back to Car List</a>
+  </div>
+{% endblock %}

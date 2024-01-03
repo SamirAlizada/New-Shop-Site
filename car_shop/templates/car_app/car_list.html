@@ -1,0 +1,27 @@
+<!-- templates/car_app/car_list.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Car List</h2>
+
+    <div class="row">
+        {% for car in car_list %}
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    {% if car.image %}
+                        <img src="{{ car.image.url }}" class="card-img-top" alt="{{ car.make }} {{ car.model }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.year }} {{ car.make }} {{ car.model }}</h5>
+                        <p class="card-text">{{ car.description }}</p>
+                        <p class="card-text"><strong>Price:</strong> ${{ car.price }}</p>
+                        {% if car.color %}
+                            <p class="card-text"><strong>Color:</strong> {{ car.color }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

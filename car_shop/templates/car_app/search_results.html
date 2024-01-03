@@ -1,0 +1,22 @@
+<!-- templates/search_results.html -->
+
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2>Search Results</h2>
+
+    {% if query %}
+        <p>Results for query: "{{ query }}"</p>
+    {% endif %}
+
+    {% if results %}
+        <ul>
+            {% for result in results %}
+                <li>{{ result.model }}</li>
+                <!-- Əlavə informasiyaları əlavə edin -->
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No results found.</p>
+    {% endif %}
+{% endblock %}

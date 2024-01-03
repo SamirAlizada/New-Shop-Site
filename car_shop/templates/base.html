@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/car_list.css' %}">
+    <link rel="stylesheet" href="{% static 'css/car_detail.css' %}">
+    <link rel="stylesheet" href="{% static 'css/signup.css' %}">
+    <title>{% block title %}AS Car Shop{% endblock %}</title>
+</head>
+<body>
+    <header>
+        <a class="navbar-brand" href="{% url 'car_list' %}">
+            <img src="{% static 'images/logo.png' %}" alt="Logo" width="60" height="50" class="d-inline-block align-top">
+        </a>
+    </header>
+    <!-- <nav>
+        <ul>
+            <li><a href="{% url 'car_list' %}">Car List</a></li>
+            <li><a href="{% url 'store_list' %}">Store List</a></li>
+        </ul>
+    </nav> -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                
+                <li><a href="{% url 'car_list' %}">Car List</a></li>
+                <li><a href="{% url 'store_list' %}">Store List</a></li>
+                <!-- Əgər istifadəçi daxil olmamışdırsa -->
+                {% if not user.is_authenticated %}
+                    <!-- <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
+                    </li> -->
+                    <!-- base.html -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-primary" href="{% url 'signup' %}">Sign Up</a>
+                    </li>
+                {% else %}
+                    <!-- Əgər istifadəçi daxil olduysa -->
+                    <div class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Account</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
+                        </li>
+                    </div>
+                {% endif %}
+                <!-- Axtarış çubuğu -->
+                <li class="nav-item">
+                    <form class="form-inline my-2 my-lg-0" action="{% url 'search_view' %}" method="get">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="q">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+
+        <!-- {% if user.is_authenticated %}
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Account</a>
+                </li>
+            </ul>
+        {% endif %} -->
+    </nav>
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Car Shop</p>
+    </footer>
+</body>
+</html>
