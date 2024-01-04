@@ -12,6 +12,7 @@
     <title>{% block title %}AS Car Shop{% endblock %}</title>
 </head>
 <body>
+    
     <header>
         <a class="navbar-brand" href="{% url 'car_list' %}">
             <img src="{% static 'images/logo.png' %}" alt="Logo" width="60" height="50" class="d-inline-block align-top">
@@ -28,7 +29,8 @@
             <ul class="navbar-nav ml-auto">
                 
                 <li><a href="{% url 'car_list' %}">Car List</a></li>
-                <li><a href="{% url 'store_list' %}">Store List</a></li>
+                <!-- <li><a href="{% url 'store_list' %}">Store List</a></li> -->
+
                 <!-- Əgər istifadəçi daxil olmamışdırsa -->
                 {% if not user.is_authenticated %}
                     <!-- <li class="nav-item">
@@ -51,8 +53,11 @@
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
+                            <a class="nav-link" href="{% url 'view_cart' %}">View Cart</a>
                         </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link" href="{% url 'password_change' %}">Change Password</a>
+                        </li> -->
                     </div>
                 {% endif %}
                 <!-- Axtarış çubuğu -->
@@ -79,8 +84,8 @@
             {% endblock %}
         </div>
     </main>
-    <footer>
+    <!-- <footer>
         <p>&copy; 2024 My Car Shop</p>
-    </footer>
+    </footer> -->
 </body>
 </html>

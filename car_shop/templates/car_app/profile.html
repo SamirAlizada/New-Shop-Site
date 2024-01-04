@@ -1,17 +1,46 @@
 <!-- profile.html -->
+
+<!-- templates/car_app/profile.html -->
+
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="row mt-5">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Profile Information</h5>
-          <p class="card-text"><strong>Username:</strong> {{ user.username }}</p>
-          <p class="card-text"><strong>Email:</strong> {{ user.email }}</p>
-          <!-- Əlavə məlumatlarınızı burada əlavə edə bilərsiniz -->
-        </div>
+<style>
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    width: 40%;
+  }
+  
+  .card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  }
+  
+  .container {
+    padding: 2px 16px;
+  }
+
+  .btn {
+    background-color: gray;
+  }
+
+  .btn:hover {
+    background-color: dimgray;
+  }
+  </style>
+
+<h2>User Profile</h2>
+    <div class="card">
+      <div class="container">
+        <h3>Name: {{ user.username }}</h3>
+        <h3>Email: {{ user.email }}</h3>
+        <!-- <h3>Password: {{ user.password }}</h3> -->
+        <!-- <p>Architect & Engineer</p> -->
+        <a href="{% url 'password_change' %}">
+          <button class="btn" type="submit">Change password</button>
+        </a>
+        <p></p>
       </div>
     </div>
-  </div>
 {% endblock %}
+

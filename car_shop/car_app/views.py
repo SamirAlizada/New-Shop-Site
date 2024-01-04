@@ -13,36 +13,36 @@ def store_list(request):
     stores = Store.objects.all()
     return render(request, 'car_app/store_list.html', {'stores': stores})
     
-def order_car(request, car_id):
-    car = get_object_or_404(Car, pk=car_id)
-    if request.method == 'POST':
-        quantity = int(request.POST['quantity'])
-        customer_name = request.POST['customer_name']
-        customer_email = request.POST['customer_email']
-        total_price = car.price * quantity
-        order = Order(car=car, quantity=quantity, total_price=total_price, customer_name=customer_name, customer_email=customer_email)
-        order.save()
-        return render(request, 'car_app/order_confirmation.html', {'order': order})
-    else:
-        return render(request, 'car_app/order_car.html', {'car': car})
+# def order_car(request, car_id):
+#     car = get_object_or_404(Car, pk=car_id)
+#     if request.method == 'POST':
+#         quantity = int(request.POST['quantity'])
+#         customer_name = request.POST['customer_name']
+#         customer_email = request.POST['customer_email']
+#         total_price = car.price * quantity
+#         order = Order(car=car, quantity=quantity, total_price=total_price, customer_name=customer_name, customer_email=customer_email)
+#         order.save()
+#         return render(request, 'car_app/order_confirmation.html', {'order': order})
+#     else:
+#         return render(request, 'car_app/order_car.html', {'car': car})
 
 # views.py
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Car, Cart, CartItem
-from .forms import AddToCartForm
+# from django.shortcuts import render, get_object_or_404, redirect
+# from .models import Car, Cart, CartItem
+# from .forms import AddToCartForm
 
-def add_to_cart(request, car_id):
-    car = get_object_or_404(Car, id=car_id)
-    form = AddToCartForm(request.POST or None)
-    if form.is_valid():
-        quantity = form.cleaned_data['quantity']
-        cart, created = Cart.objects.get_or_create(user=request.user)
-        cart_item, created = CartItem.objects.get_or_create(car=car, cart=cart, defaults={'quantity': quantity})
-        if not created:
-            cart_item.quantity += quantity
-            cart_item.save()
-        return render(request, 'car_app/add_to_cart.html')
-    return render(request, 'car_app/car_detail.html', {'car': car, 'form': form})
+# def add_to_cart(request, car_id):
+#     car = get_object_or_404(Car, id=car_id)
+#     form = AddToCartForm(request.POST or None)
+#     if form.is_valid():
+#         quantity = form.cleaned_data['quantity']
+#         cart, created = Cart.objects.get_or_create(user=request.user)
+#         cart_item, created = CartItem.objects.get_or_create(car=car, cart=cart, defaults={'quantity': quantity})
+#         if not created:
+#             cart_item.quantity += quantity
+#             cart_item.save()
+#         return render(request, 'car_app/add_to_cart.html')
+#     return render(request, 'car_app/car_detail.html', {'car': car, 'form': form})
 
 # views.py
 from django.shortcuts import render, redirect
@@ -111,17 +111,21 @@ def login_view(request):
 
 # views.py
 
+# views.py
+# views.py
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from django.contrib import messages
 
 class CustomPasswordChangeView(PasswordChangeView):
     template_name = 'registration/password_change_form.html'
-    success_url = reverse_lazy('password_change')
+    success_url = reverse_lazy('password_change_done')
 
     def form_valid(self, form):
+        response = super().form_valid(form)
         messages.success(self.request, 'Your password has been changed successfully.')
-        return super().form_valid(form)
+        return response
+
 
 # views.py
 from django.shortcuts import render
@@ -150,3 +154,32 @@ def search_view(request):
         results = Car.objects.filter(Q(model__icontains=query) | Q(description__icontains=query))
 
     return render(request, 'car_app/search_results.html', {'results': results, 'query': query})
+
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Car, Cart, CartItem
+from django.contrib import messages
+
+def add_to_cart(request, car_id):
+    car = get_object_or_404(Car, pk=car_id)
+    user_cart, created = Cart.objects.get_or_create(user=request.user)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=user_cart, car=car)
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    messages.success(request, f'{car.make} {car.model} has been added to your cart.')
+    return redirect('car_list')
+
+# views.py
+from django.shortcuts import render
+from .models import CartItem
+
+def view_cart(request):
+    user_cart = request.user.cart
+    cart_items = CartItem.objects.filter(cart=user_cart)
+    total_amount = sum(item.car.price for item in cart_items)
+
+    return render(request, 'car_app/cart/view_cart.html', {'cart_items': cart_items, 'total_amount': total_amount})

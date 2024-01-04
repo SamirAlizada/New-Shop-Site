@@ -111,3 +111,22 @@ button:hover {
 .navbar-brand img {
     margin-right: 10px; /* Şəkilin sağ tərəfinə boşluq əlavə edin (isteğə bağlı) */
 }
+
+/* styles.css (və ya hər hansısa CSS faylı) */
+
+body {
+    margin-bottom: 100px; /* Footer hündürlüyü üçün rezerv yaratmaq */
+}
+
+.footer {
+    position: fixed !important;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #f8f9fa; /* Footerın arxa plan rəngi */
+    padding: 10px 0;
+    text-align: center;
+    border-top: 1px solid #dee2e6; /* Footerın üstündən xətt rəngi */
+}
+
+/* Başqa stil tənzimləmələri */
