@@ -170,16 +170,29 @@ def add_to_cart(request, car_id):
         cart_item.quantity += 1
         cart_item.save()
 
-    messages.success(request, f'{car.make} {car.model} has been added to your cart.')
+    messages.success(request, f'{car.model} has been added to your cart.')
     return redirect('car_list')
 
 # views.py
 from django.shortcuts import render
 from .models import CartItem
 
-def view_cart(request):
-    user_cart = request.user.cart
-    cart_items = CartItem.objects.filter(cart=user_cart)
-    total_amount = sum(item.car.price for item in cart_items)
+# def view_cart(request):
+#     user_cart = request.user.cart
+#     cart_items = CartItem.objects.filter(cart=user_cart)
+#     total_amount = sum(item.car.price for item in cart_items)
 
-    return render(request, 'car_app/cart/view_cart.html', {'cart_items': cart_items, 'total_amount': total_amount})
+#     return render(request, 'car_app/cart/view_cart.html', {'cart_items': cart_items, 'total_amount': total_amount})
+
+def view_cart(request):
+    try:
+        user_cart = request.user.cart
+        cart_items = CartItem.objects.filter(cart=user_cart)
+        total_amount = sum(item.car.price for item in cart_items)
+        return render(request, 'car_app/cart/view_cart.html', {'cart_items': cart_items, 'total_amount': total_amount})
+    except Cart.DoesNotExist:
+        # İstifadəçinin məhsul səbəti yoxdursa
+        user_cart = None
+        cart_items = []
+        total_amount = 0
+        return render(request, 'car_app/cart/view_cart.html', {'cart_items': cart_items, 'total_amount': total_amount, 'user_cart': user_cart})
